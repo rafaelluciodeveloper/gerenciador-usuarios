@@ -8,12 +8,12 @@ import java.time.LocalDateTime;
 public class ApiError {
     private LocalDateTime timestamp = LocalDateTime.now();
     private int status;
-    private String mensagem;
+    private String message;
     private String path;
 
-    public ApiError(int status, String mensagem, String path) {
+    public ApiError(int status, String message, String path) {
         this.status = status;
-        this.mensagem = mensagem;
+        this.message = message;
         this.path = path;
     }
 }

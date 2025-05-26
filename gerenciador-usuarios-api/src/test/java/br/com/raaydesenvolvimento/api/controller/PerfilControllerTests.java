@@ -3,6 +3,8 @@ package br.com.raaydesenvolvimento.api.controller;
 import br.com.raaydesenvolvimento.api.dto.request.AtualizarPerfilDTO;
 import br.com.raaydesenvolvimento.api.dto.request.CriarPerfilDTO;
 import br.com.raaydesenvolvimento.api.dto.response.PerfilDTO;
+import br.com.raaydesenvolvimento.api.exception.GlobalExceptionHandler;
+import br.com.raaydesenvolvimento.api.mapper.PerfilMapper;
 import br.com.raaydesenvolvimento.api.service.PerfilService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -80,13 +82,15 @@ class PerfilControllerTests {
     @Test
     void deveCriarPerfil() throws Exception {
         CriarPerfilDTO dto = new CriarPerfilDTO("Administrador do sistema");
+        PerfilDTO perfilCriado = new PerfilDTO(UUID.randomUUID(),"Administrador do sistema");
+        when(perfilService.salvar(any(CriarPerfilDTO.class))).thenReturn(perfilCriado);
 
         mockMvc.perform(post("/api/perfis")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated())
-                .andExpect(content().string("Perfil criado com sucesso."));
-    }
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.descricao").value("Administrador do sistema"));    }
 
     @Test
     void naoDeveCriarPerfilComDescricaoVazia() throws Exception {
@@ -113,13 +117,15 @@ class PerfilControllerTests {
     @Test
     void deveAtualizarPerfil() throws Exception {
         UUID id = UUID.randomUUID();
-        AtualizarPerfilDTO dto = new AtualizarPerfilDTO("Perfil Atualizado");
+        AtualizarPerfilDTO dto = new AtualizarPerfilDTO("Perfil Atualizado 2");
+        PerfilDTO atualizado = new PerfilDTO(UUID.randomUUID(),"Perfil atualizado 2");
+        when(perfilService.atualizar(any(),any(AtualizarPerfilDTO.class))).thenReturn(atualizado);
 
         mockMvc.perform(patch("/api/perfis/" + id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Perfil atualizado com sucesso."));
+                .andExpect(jsonPath("$.descricao").value("Perfil atualizado 2"));
     }
 
     @Test
@@ -139,12 +145,15 @@ class PerfilControllerTests {
         UUID id = UUID.randomUUID();
 
         mockMvc.perform(delete("/api/perfis/" + id))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Perfil deletado com sucesso."));
+                .andExpect(status().isNoContent());
     }
 
     @TestConfiguration
     static class TestConfig {
+        @Bean
+        public PerfilMapper perfilMapper() {
+            return mock(PerfilMapper.class);
+        }
         @Bean
         public PerfilService perfilService() {
             return mock(PerfilService.class);

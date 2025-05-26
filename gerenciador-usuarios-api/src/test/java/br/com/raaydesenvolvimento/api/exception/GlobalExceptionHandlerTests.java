@@ -59,13 +59,13 @@ class GlobalExceptionHandlerTests {
         mockMvc.perform(get("/api/perfis/" + id))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.status").value(500))
-                .andExpect(jsonPath("$.mensagem").value("Erro interno: No static resource api/perfis/" + id + "."));
+                .andExpect(jsonPath("$.message").value("Erro interno: No static resource api/perfis/" + id + "."));
     }
 
     @Test
     void deveInstanciarApiError() {
         ApiError error = new ApiError(400, "msg", "/uri");
         assertThat(error.getStatus()).isEqualTo(400);
-        assertThat(error.getMensagem()).isEqualTo("msg");
+        assertThat(error.getMessage()).isEqualTo("msg");
     }
 }

@@ -7,6 +7,7 @@ import br.com.raaydesenvolvimento.api.mapper.PerfilMapper;
 import br.com.raaydesenvolvimento.api.model.Perfil;
 import br.com.raaydesenvolvimento.api.repository.PerfilRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -58,6 +59,10 @@ public class PerfilService {
         if (!perfilRepository.existsById(id)) {
             throw new EntityNotFoundException("Perfil com ID " + id + " não encontrado.");
         }
-        perfilRepository.deleteById(id);
+        try {
+            perfilRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalStateException("Não é possível excluir o perfil pois está vinculado a um ou mais usuários.");
+        }
     }
 }

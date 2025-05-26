@@ -2,6 +2,7 @@ package br.com.raaydesenvolvimento.api.controller;
 
 import br.com.raaydesenvolvimento.api.dto.request.AtualizarUsuarioDTO;
 import br.com.raaydesenvolvimento.api.dto.request.CriarUsuarioDTO;
+import br.com.raaydesenvolvimento.api.dto.response.PerfilDTO;
 import br.com.raaydesenvolvimento.api.dto.response.UsuarioDTO;
 import br.com.raaydesenvolvimento.api.service.UsuarioService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -80,12 +81,15 @@ class UsuarioControllerTests {
     @Test
     void deveCriarUsuario() throws Exception {
         CriarUsuarioDTO dto = new CriarUsuarioDTO("João da silva lucio", Set.of(UUID.randomUUID()));
+        UsuarioDTO usuarioCriado = new UsuarioDTO(UUID.randomUUID(), "João da silva lucio", Set.of(new PerfilDTO(UUID.randomUUID(), "Perfil Teste")));
+        when(usuarioService.salvar(dto)).thenReturn(usuarioCriado);
 
         mockMvc.perform(post("/api/usuarios")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated())
-                .andExpect(content().string("Usuário criado com sucesso."));
+                .andExpect(jsonPath("$.id").value(usuarioCriado.id().toString()))
+                .andExpect(jsonPath("$.nome").value(usuarioCriado.nome()));
     }
 
     @Test
@@ -115,11 +119,14 @@ class UsuarioControllerTests {
         UUID id = UUID.randomUUID();
         AtualizarUsuarioDTO dto = new AtualizarUsuarioDTO("João Atualizado", Set.of(UUID.randomUUID()));
 
+        UsuarioDTO usuarioAtualizado = new UsuarioDTO(id, "João Atualizado", Set.of());
+        when(usuarioService.atualizar(id, dto)).thenReturn(usuarioAtualizado);
+
         mockMvc.perform(patch("/api/usuarios/" + id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Usuário atualizado com sucesso."));
+                .andExpect(jsonPath("$.nome").value(usuarioAtualizado.nome()));
     }
 
     @Test
@@ -139,8 +146,7 @@ class UsuarioControllerTests {
         UUID id = UUID.randomUUID();
 
         mockMvc.perform(delete("/api/usuarios/" + id))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Usuário deletado com sucesso."));
+                .andExpect(status().isNoContent());
     }
 
     @TestConfiguration
