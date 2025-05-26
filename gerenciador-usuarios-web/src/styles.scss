@@ -1,0 +1,43 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/fonts/roboto/Roboto-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/fonts/roboto/Roboto-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/fonts/roboto/Roboto-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.success-snackbar {
+  background: #4caf50;
+  color: white;
+
+  .mat-simple-snackbar-action {
+    color: white;
+  }
+}
+
+.error-snackbar {
+  background: #f44336;
+  color: white;
+
+  .mat-simple-snackbar-action {
+    color: white;
+  }
+}

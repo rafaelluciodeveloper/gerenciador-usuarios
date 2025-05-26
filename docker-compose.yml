@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:16.2
+    container_name: db
+    environment:
+      POSTGRES_DB: gerenciador_usuarios
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - work
+  backend:
+    container_name: backend
+    build: ./gerenciador-usuarios-api
+    image: gerenciador-usuarios-api:latest
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    networks:
+      - work
+  frontend:
+    container_name: frontend
+    build: ./gerenciador-usuarios-web
+    image: gerenciador-usuarios-web:latest
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - work
+
+volumes:
+  pgdata:
+
+networks:
+  work:
+    driver: bridge
