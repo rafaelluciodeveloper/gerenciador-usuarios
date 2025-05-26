@@ -3,7 +3,6 @@ package br.com.raaydesenvolvimento.api.controller;
 import br.com.raaydesenvolvimento.api.dto.request.AtualizarPerfilDTO;
 import br.com.raaydesenvolvimento.api.dto.request.CriarPerfilDTO;
 import br.com.raaydesenvolvimento.api.dto.response.PerfilDTO;
-import br.com.raaydesenvolvimento.api.exception.GlobalExceptionHandler;
 import br.com.raaydesenvolvimento.api.mapper.PerfilMapper;
 import br.com.raaydesenvolvimento.api.service.PerfilService;
 import com.fasterxml.jackson.databind.ObjectMapper;
