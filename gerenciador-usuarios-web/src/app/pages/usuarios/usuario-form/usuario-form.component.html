@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>{{data.id ? (data.readonly ? 'Detalhes do' : 'Editar') : 'Novo'}} Usuário</h2>
+<div mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field class="full-width">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nome" required>
+      <mat-error *ngIf="form.get('nome')?.errors?.['required']">Nome é obrigatório</mat-error>
+      <mat-error *ngIf="form.get('nome')?.errors?.['minlength']">Nome deve ter no mínimo 5 caracteres</mat-error>
+    </mat-form-field>
+
+    <ng-container *ngIf="!data.readonly">
+      <mat-form-field class="full-width">
+        <mat-label>Perfis</mat-label>
+        <mat-select formControlName="perfis" multiple required>
+          <mat-option *ngFor="let perfil of perfis" [value]="perfil">
+            {{perfil.descricao}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('perfis')?.errors?.['required']">Selecione pelo menos um perfil</mat-error>
+      </mat-form-field>
+    </ng-container>
+
+    <ng-container *ngIf="data.readonly">
+      <div class="perfis-chips">
+        <mat-label>Perfis</mat-label>
+        <mat-chip-set>
+          <mat-chip *ngFor="let perfil of form.get('perfis')?.value">
+            {{perfil.descricao}}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </ng-container>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">{{data.readonly ? 'Fechar' : 'Cancelar'}}</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="!data.readonly">
+    {{data.id ? 'Atualizar' : 'Criar'}}
+  </button>
+</div>

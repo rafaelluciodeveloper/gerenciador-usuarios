@@ -1,0 +1,24 @@
+.full-width {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+mat-dialog-content {
+  min-width: 400px;
+  padding: 20px;
+}
+
+.perfis-chips {
+  margin: 16px 0;
+
+  mat-label {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  mat-chip-set {
+    margin-top: 8px;
+  }
+}

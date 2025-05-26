@@ -1,0 +1,32 @@
+.page-container {
+  padding: 20px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filtro-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-column-acoes {
+  width: 200px;
+  text-align: center;
+}
+
+.action-delete {
+  color: #f44336; // Vermelho Material
+}
+
+.action-edit {
+  color: #2196f3; // Azul Material
+}

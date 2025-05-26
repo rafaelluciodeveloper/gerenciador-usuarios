@@ -82,7 +82,8 @@ gerenciador-usuarios-web
 │       ├── components
 │       ├── services
 │       └── models
-│       └── pages        
+│       └── pages       
+│       └── shared      
 ```
 
 ## 📊 Testes

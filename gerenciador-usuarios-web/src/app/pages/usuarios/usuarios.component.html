@@ -1,0 +1,48 @@
+<div class="page-container">
+  <div class="page-header">
+    <h2>Usuários</h2>
+    <button mat-raised-button style="background-color: #2196f3; color: white;" (click)="abrirModal()">
+      <mat-icon>add</mat-icon>
+      Novo Usuário
+    </button>
+  </div>
+
+  <mat-form-field class="filtro-field">
+    <mat-label>Filtrar por nome</mat-label>
+    <input matInput [(ngModel)]="filtro.nome" (keyup)="aplicarFiltro()">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <table mat-table [dataSource]="usuarios" class="mat-elevation-z8">
+    <ng-container matColumnDef="nome">
+      <th mat-header-cell *matHeaderCellDef>Nome</th>
+      <td mat-cell *matCellDef="let usuario">{{usuario.nome}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="acoes">
+      <th mat-header-cell *matHeaderCellDef>Ações</th>
+      <td mat-cell *matCellDef="let usuario">
+        <button mat-icon-button (click)="visualizar(usuario)">
+          <mat-icon class="action-edit">visibility</mat-icon>
+        </button>
+        <button mat-icon-button (click)="editar(usuario)">
+          <mat-icon class="action-edit">edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="confirmarExclusao(usuario)">
+          <mat-icon class="action-delete">delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+    <tr mat-row *matRowDef="let row; columns: colunas;"></tr>
+  </table>
+
+  <mat-paginator
+    [length]="totalElementos"
+    [pageSize]="filtro.size"
+    [pageSizeOptions]="[5, 10, 25, 50]"
+    [pageIndex]="filtro.page"
+    (page)="onPaginaChange($event)">
+  </mat-paginator>
+</div>
