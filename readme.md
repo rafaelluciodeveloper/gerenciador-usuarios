@@ -21,7 +21,7 @@ Desenvolver uma API RESTful para gerenciar usuários e perfis e uma interface we
 - Docker
 
 ### Front-end (`gerenciador-usuarios-web`)
-- Angular 19
+- Angular 17
 - Angular Material
 - RxJS
 - TypeScript 5

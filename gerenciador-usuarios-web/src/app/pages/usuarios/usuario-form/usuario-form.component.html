@@ -11,7 +11,7 @@
     <ng-container *ngIf="!data.readonly">
       <mat-form-field class="full-width">
         <mat-label>Perfis</mat-label>
-        <mat-select formControlName="perfis" multiple required>
+        <mat-select formControlName="perfis" multiple required [compareWith]="comparePerfis">
           <mat-option *ngFor="let perfil of perfis" [value]="perfil">
             {{perfil.descricao}}
           </mat-option>
